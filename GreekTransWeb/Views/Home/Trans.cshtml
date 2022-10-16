@@ -1,0 +1,58 @@
+﻿@model GreekTransWeb.Models.TransViewModel
+@{
+    ViewBag.Title = "希腊文转写";
+}
+<article>
+    <form asp-controller="home" asp-action="trans" method="post">
+        <div asp-validation-summary="All" class="text-danger"></div>
+
+        <fieldset>
+            <label asp-for="Greek">
+                希腊文:
+                <div>
+                    <textarea asp-for="Greek" placeholder="在这儿输入希腊文 ..." rows="3" required></textarea>
+                    <span asp-validation-for="Greek" class="text-danger"></span>
+                </div>
+            </label>
+            <div>
+                <label asp-for="Ancient">
+                    古代
+                    <input asp-for="Ancient" type="checkbox" />
+                </label>
+            </div>
+        </fieldset>
+
+        <button type="submit">转写</button>
+
+        <fieldset>
+            @if (string.IsNullOrEmpty(Model.Translitered) == false)
+            {
+                <label asp-for="Translitered">
+                    转写结果:
+                    <div><textarea rows="3" readonly class="contrast">@Model.Translitered</textarea></div>
+                </label>
+            }
+        </fieldset>
+
+        <fieldset>
+            @if (string.IsNullOrEmpty(Model.ProcessInfo) == false)
+            {
+                <details>
+                    <summary class="secondary">处理过程</summary>
+                    <blockquote class="secondary">@Model.ProcessInfo</blockquote>
+                </details>
+            }
+        </fieldset>
+
+        <fieldset>
+            @if (string.IsNullOrEmpty(Model.ErrorInfo) == false)
+            {
+                <label asp-for="ErrorInfo">
+                    转写过程发生错误:
+                    <textarea class="text-danger">@Model.ErrorInfo</textarea>
+                </label>
+            }
+        </fieldset>
+    </form>
+</article>
+

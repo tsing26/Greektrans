@@ -1,0 +1,100 @@
+﻿@model GreekTransWeb.Models.TestViewModel
+@{
+    ViewBag.Title = "希腊文转写测试";
+}
+<article>
+    <form asp-controller="home" asp-action="test" method="post">
+        <header><h2 class="text-center">测试</h2></header>
+        <div asp-validation-summary="All" class="text-danger"></div>
+
+        <fieldset>
+            <label asp-for="InputLines">
+                测试条目:
+                <div>
+                    <textarea asp-for="InputLines" placeholder="在这儿输入测试条目，每行一个条目，格式为 ἅβα*→haba" rows="10" required></textarea>
+                    <span asp-validation-for="InputLines" class="text-danger"></span>
+                </div>
+            </label>
+        </fieldset>
+
+        <button type="submit">测试</button>
+
+        <fieldset>
+            @if (Model.TestResults != null)
+            {
+                <label asp-for="TestResults">
+                    测试结果:
+                    <table>
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Status</th>
+                                <th scope="col">Input</th>
+                                <th scope="col">Output</th>
+                                <th scope="col">Expect</th>
+                                <th scope="col">Details</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{
+                                int line_no = 1;
+                            }
+                            @foreach (var result in Model.TestResults)
+                            {
+                                bool ok = (result.Target == result.Expect && string.IsNullOrEmpty(result.ErrorInfo));
+                                string tr_style = "background-color:darkred";
+                                if (ok)
+                                {
+                                    tr_style = "";
+                                }
+
+                                <tr style=@tr_style>
+                                    <th scope="row">@line_no</th>
+                                    <td>
+                                        @if (ok)
+                                        {
+                                            <i class="bi bi-check-circle-fill" style="color:green"></i>
+                                        }
+                                        else
+                                        {
+                                            <i class="bi bi-x-circle-fill" style="color:red"></i>
+                                        }
+                                    </td>
+                                    <td>@result.Source</td>
+                                    <td>@result.Target</td>
+                                    <td>@result.Expect</td>
+                                    @{
+                                        List<string> lines = new List<string>();
+                                        if (string.IsNullOrEmpty(result.DebugInfo) == false)
+                                            lines.AddRange(result.DebugInfo.Split("\r\n"));
+                                        if (string.IsNullOrEmpty(result.ErrorInfo) == false)
+                                            lines.AddRange(result.ErrorInfo.Split("\r\n"));
+
+                                        <td>
+                                            @foreach (var s in lines)
+                                            {
+                                                <div>@s</div>
+                                            }
+                                        </td>
+                                    }
+                                </tr>
+                                line_no++;
+                            }
+                        </tbody>
+                    </table>
+                </label>
+            }
+        </fieldset>
+
+        <fieldset>
+            @if (string.IsNullOrEmpty(Model.ErrorInfo) == false)
+            {
+                <label asp-for="ErrorInfo">
+                    测试过程出现异常:
+                    <textarea class="text-danger">@Model.ErrorInfo</textarea>
+                </label>
+            }
+        </fieldset>
+    </form>
+</article>
+
