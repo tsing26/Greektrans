@@ -38,6 +38,8 @@
             this.button_clearUnicode = new System.Windows.Forms.Button();
             this.button_greak = new System.Windows.Forms.Button();
             this.button_normlizeText = new System.Windows.Forms.Button();
+            this.button_collectionText = new System.Windows.Forms.Button();
+            this.button_testCaseText = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // label1
@@ -130,7 +132,7 @@
             // button_greak
             // 
             this.button_greak.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.button_greak.Location = new System.Drawing.Point(642, 170);
+            this.button_greak.Location = new System.Drawing.Point(642, 235);
             this.button_greak.Name = "button_greak";
             this.button_greak.Size = new System.Drawing.Size(146, 40);
             this.button_greak.TabIndex = 8;
@@ -149,11 +151,35 @@
             this.button_normlizeText.UseVisualStyleBackColor = true;
             this.button_normlizeText.Click += new System.EventHandler(this.button_normlizeText_Click);
             // 
+            // button_collectionText
+            // 
+            this.button_collectionText.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.button_collectionText.Location = new System.Drawing.Point(642, 147);
+            this.button_collectionText.Name = "button_collectionText";
+            this.button_collectionText.Size = new System.Drawing.Size(146, 40);
+            this.button_collectionText.TabIndex = 10;
+            this.button_collectionText.Text = "集合态";
+            this.button_collectionText.UseVisualStyleBackColor = true;
+            this.button_collectionText.Click += new System.EventHandler(this.button_collectionText_Click);
+            // 
+            // button_testCaseText
+            // 
+            this.button_testCaseText.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.button_testCaseText.Location = new System.Drawing.Point(642, 189);
+            this.button_testCaseText.Name = "button_testCaseText";
+            this.button_testCaseText.Size = new System.Drawing.Size(146, 40);
+            this.button_testCaseText.TabIndex = 11;
+            this.button_testCaseText.Text = "测试态";
+            this.button_testCaseText.UseVisualStyleBackColor = true;
+            this.button_testCaseText.Click += new System.EventHandler(this.button_testCaseText_Click);
+            // 
             // UnicodeToolDialog
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(13F, 28F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 576);
+            this.Controls.Add(this.button_testCaseText);
+            this.Controls.Add(this.button_collectionText);
             this.Controls.Add(this.button_normlizeText);
             this.Controls.Add(this.button_greak);
             this.Controls.Add(this.button_clearUnicode);
@@ -185,5 +211,7 @@
         private Button button_clearUnicode;
         private Button button_greak;
         private Button button_normlizeText;
+        private Button button_collectionText;
+        private Button button_testCaseText;
     }
 }

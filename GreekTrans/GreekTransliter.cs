@@ -266,7 +266,7 @@ namespace GreekTrans
 
                 return text.ToString();
             }
-            catch(TransliterException ex)
+            catch (TransliterException ex)
             {
                 throw new TransliterException(ex.Message, source);
             }
@@ -279,12 +279,100 @@ namespace GreekTrans
             return $"{segment}(step={step})";
         }
 
+        // 双元音处理
+        public static string? LookupDoubleChar(string greek,
+    LookupStyle style,
+    out int step)
+        {
+            Debug.Assert(greek.Length == 2);
+
+            step = greek.Length;
+
+            string s1 = greek.Substring(0, 1);
+            string s2 = greek.Substring(1, 1);
+
+            if (upper_alpha_without_dasia.Where(x => s1 == x).Any())
+            {
+                // 集合②+集合⑤→HAI；
+                // upper_alpha_without_dasia + upper_iota_with_dasia
+                if (upper_iota_with_dasia.Where(x => s2 == x).Any())
+                    return "HAI";
+
+                // 集合②+集合⑥→AI；
+                // upper_alpha_without_dasia + upper_iota_without_dasia
+                if (upper_iota_without_dasia.Where(x => s2 == x).Any())
+                    return "AI";
+
+                // 集合②+集合⑦→Hai；
+                // upper_alpha_without_dasia + lower_iota_with_dasia
+                if (lower_iota_with_dasia.Where(x => s2 == x).Any())
+                    return "Hai";
+
+                // 集合②+集合⑧→Ai；
+                // upper_alpha_without_dasia + lower_iota_without_dasia
+                if (lower_iota_without_dasia.Where(x => s2 == x).Any())
+                    return "Ai";
+            }
+
+            if (lower_alpha_without_dasia.Where(x => s1 == x).Any())
+            {
+                // 集合④+集合⑦→hai；
+                // lower_alpha_without_dasia + lower_iota_with_dasia
+                if (lower_iota_with_dasia.Where(x => s2 == x).Any())
+                    return "hai";
+
+                // 集合④+集合⑧→ai。
+                // lower_alpha_without_dasia + lower_iota_without_dasia
+                if (lower_iota_without_dasia.Where(x => s2 == x).Any())
+                    return "ai";
+            }
+
+            if (upper_alpha_without_dasia.Where(x => s1 == x).Any())
+            {
+                // 集合（upper_alpha_without_dasia）+ 集合（upper_upsilon_with_dasia）→HAU；
+                if (upper_upsilon_with_dasia.Where(x => s2 == x).Any())
+                    return "HAU";
+
+                // 集合（upper_alpha_without_dasia）+ 集合（upper_upsilon_without_dasia）→AU；
+                if (upper_upsilon_without_dasia.Where(x => s2 == x).Any())
+                    return "AU";
+
+                // 集合（upper_alpha_without_dasia）+ 集合（lower_upsilon_with_dasia）→Hau；
+                if (lower_upsilon_with_dasia.Where(x => s2 == x).Any())
+                    return "Hau";
+
+                // 集合（upper_alpha_without_dasia）+ 集合（lower_upsilon_without_dasia）→Au；
+                if (lower_upsilon_without_dasia.Where(x => s2 == x).Any())
+                    return "Au";
+            }
+
+            if (lower_alpha_without_dasia.Where(x => s1 == x).Any())
+            {
+                // 集合（lower_alpha_without_dasia）+ 集合（lower_upsilon_with_dasia）→hau；
+                if (lower_upsilon_with_dasia.Where(x => s2 == x).Any())
+                    return "hau";
+
+                // 集合（lower_alpha_without_dasia）+ 集合（lower_upsilon_without_dasia）→au。
+                if (lower_upsilon_without_dasia.Where(x => s2 == x).Any())
+                    return "au";
+            }
+
+            return null;
+        }
+
         // 查找希腊文字符对应的罗马化形态
         public static string? LookupChar(string greek,
-            // string prev_char,   // greek 的倒退一个位置的字符
-            LookupStyle style,
-            out int step)
+        // string prev_char,   // greek 的倒退一个位置的字符
+        LookupStyle style,
+        out int step)
         {
+            if (greek.Length == 2)
+            {
+                var temp = LookupDoubleChar(greek, style, out step);
+                if (temp != null)
+                    return temp;
+            }
+
             step = greek.Length;
 
             // ancient modern
@@ -417,6 +505,7 @@ namespace GreekTrans
             // ③有气号（Dasia）以外其它变音符号（Ή Ή Ὴ Ἠ Ἤ Ἢ ᾞ ῌ Ἦ ᾘ ᾜ ᾚ）不转换
             if (upper_eta_diacritics_exclude_dasia.Where(x => greek == x).Any())
                 return "Ē";
+
             // ④双元音：ΗΥ→ĒU、ΗὙ→HĒU、ΗὝ→HĒU、ΗὛ→HĒU、ΗὟ→HĒU
             if (greek.Length == 2)
             {
@@ -428,6 +517,7 @@ namespace GreekTrans
                     || greek == "ΗὟ")
                     return "HĒU";
             }
+
 
             // =============
             // === theta ===
@@ -451,6 +541,7 @@ namespace GreekTrans
             // ③有气号以外的其它变音符号（Ί Ί Ὶ Ϊ Ῐ Ῑ Ἰ Ἲ Ἴ）不转换；
             if (upper_iota_diacritics_exclude_dasia.Where(x => greek == x).Any())
                 return "I";
+
             // ④双元音：ΑἹ→HAI、ΕἹ→HEI、ΥἹ→HUI、ΟἹ→HOI
             if (greek.Length == 2)
             {
@@ -463,6 +554,7 @@ namespace GreekTrans
                 if (greek == "ΟἹ")
                     return "HOI";
             }
+
             // ⑤Ι位于词首，其后紧随ΔΡ或δρ且紧随带变音符号的元音时，（20220919）ΙΔ→Hid、Ιδ→Hid
             if ((style & LookupStyle.head) != 0)
             {
@@ -686,6 +778,7 @@ namespace GreekTrans
                 && (style & LookupStyle.head) != 0)
                 return "hai";
             */
+#if REMOVED // 已经集中处理
             // 双元音αι 集合1+集合2→hai；集合1+集合3→ai
             if (greek.Length == 2)
             {
@@ -699,6 +792,7 @@ namespace GreekTrans
                         return "ai";
                 }
             }
+#endif
 
             if (Array.IndexOf(lower_alpha_diphthong_aus, greek) != -1
                 && (style & LookupStyle.head) != 0)
@@ -1071,8 +1165,12 @@ namespace GreekTrans
             return null;    // 没有找到
         }
 
+        #region 字母集合
+
         // 带有气号的希腊文 Alpha 字母
-        static string[] upper_alpha_dasia_chars = new string[] {
+        // ①希腊字母集合1：Ἁ Ἃ Ἅ Ἇ ᾉ ᾋ ᾍ ᾏ（8个）→HA
+        // 此集合中字符罗马化为拉丁字母HA。
+        static string[] upper_alpha_with_dasia = new string[] {
             "\u1f09",   // (Ἁ)
             "\u1f0b",   // (Ἃ)
             "\u1f0d",   // (Ἅ)
@@ -1083,7 +1181,29 @@ namespace GreekTrans
             "\u1f8f",   // (ᾏ)
         };
 
-        static string[] lower_alpha_dasia_chars = new string[] {
+        // ②希腊字母集合2：Α Ά Ά Ὰ Ᾰ Ᾱ Ἀ Ἄ Ἂ ᾎ ᾼ Ἆ ᾈ ᾌ ᾊ（15个）→A
+        // 此集合中字符罗马化为拉丁字母A。
+        static string[] upper_alpha_without_dasia = new string[] {
+            "\u0391",   // (Α)  // ?
+            "\u0386",   // (Ά)
+            "\u1fbb",   // (Ά)
+            "\u1fba",   // (Ὰ)
+            "\u1fb8",   // (Ᾰ)
+            "\u1fb9",   // (Ᾱ)
+            "\u1f08",   // (Ἀ)
+            "\u1f0c",   // (Ἄ)
+            "\u1f0a",   // (Ἂ)
+            "\u1f8e",   // (ᾎ)
+            "\u1fbc",   // (ᾼ)
+            "\u1f0e",   // (Ἆ)
+            "\u1f88",   // (ᾈ)
+            "\u1f8c",   // (ᾌ)
+            "\u1f8a",   // (ᾊ)
+        };
+
+        // ③希腊字母集合3：ἁ ἃ ἅ ἇ ᾁ ᾃ ᾅ ᾇ（8个）→ha
+        // 集合中字符罗马化为拉丁字母ha。
+        static string[] lower_alpha_with_dasia = new string[] {
             "\u1f01",   // (ἁ)
             "\u1f03",   // (ἃ)
             "\u1f05",   // (ἅ)
@@ -1092,6 +1212,30 @@ namespace GreekTrans
             "\u1f83",   // (ᾃ)
             "\u1f85",   // (ᾅ)
             "\u1f87",   // (ᾇ)
+        };
+
+        // ④希腊字母集合4（lower_α_without dasia）：α ά ά ὰ ᾰ ᾱ ᾷ ἀ ἄ ἂ ᾆ ᾶ ᾳ ᾴ ᾲ ἆ ᾀ ᾄ ᾂ（19个）→a
+        // 集合中字符罗马化为拉丁字母a。
+        static string[] lower_alpha_without_dasia = new string[] {
+            "\u03b1",   // (α)
+            "\u03ac",   // (ά)
+            "\u1f71",   // (ά)
+            "\u1f70",   // (ὰ)
+            "\u1fb0",   // (ᾰ)
+            "\u1fb1",   // (ᾱ)
+            "\u1fb7",   // (ᾷ)
+            "\u1f00",   // (ἀ)
+            "\u1f04",   // (ἄ)
+            "\u1f02",   // (ἂ)
+            "\u1f86",   // (ᾆ)
+            "\u1fb6",   // (ᾶ)
+            "\u1fb3",   // (ᾳ)
+            "\u1fb4",   // (ᾴ)
+            "\u1fb2",   // (ᾲ)
+            "\u1f06",   // (ἆ)
+            "\u1f80",   // (ᾀ)
+            "\u1f84",   // (ᾄ)
+            "\u1f82",   // (ᾂ)
         };
 
         static string[] upper_alpha_chars = new string[]
@@ -1180,7 +1324,7 @@ namespace GreekTrans
         // 检测是不是带有气号的希腊文(大写) Alpha 字母
         static bool IsUpperAlphaDasia(string char_string)
         {
-            return upper_alpha_dasia_chars.Where(x => char_string == x).Any();
+            return upper_alpha_with_dasia.Where(x => char_string == x).Any();
         }
 
         static bool IsLowerAlpha(string char_string)
@@ -1191,7 +1335,7 @@ namespace GreekTrans
         // 检测是不是带有气号的希腊文(小写) Alpha 字母
         static bool IsLowerAlphaDasia(string char_string)
         {
-            return lower_alpha_dasia_chars.Where(x => char_string == x).Any();
+            return lower_alpha_with_dasia.Where(x => char_string == x).Any();
         }
 
         // ③有气号（Dasia）以外其它变音符号（Ό Ό Ὸ Ὀ Ὄ Ὂ）不转换；
@@ -1378,6 +1522,31 @@ namespace GreekTrans
             "\u1f12",   // (ἒ)
         };
 
+        // ⑤希腊字母集合5（upper_iota_with dasia）：Ἱ Ἵ Ἳ Ἷ（4个）
+        static string[] upper_iota_with_dasia = new string[] {
+            "\u1f39",   // (Ἱ)
+            "\u1f3d",   // (Ἵ)
+            "\u1f3b",   // (Ἳ)
+            "\u1f3f",   // (Ἷ)
+            // 共 4 个
+        };
+
+        // ⑥希腊字母集合6（upper_Ι_without dasia）：Ι Ί Ί Ὶ Ϊ Ῐ Ῑ Ἰ Ἲ Ἴ Ἶ（11个）
+        static string[] upper_iota_without_dasia = new string[] {
+            "\u0399",   // (Ι)
+            "\u038a",   // (Ί)
+            "\u1fdb",   // (Ί)
+            "\u1fda",   // (Ὶ)
+            "\u03aa",   // (Ϊ)
+            "\u1fd8",   // (Ῐ)
+            "\u1fd9",   // (Ῑ)
+            "\u1f38",   // (Ἰ)
+            "\u1f3a",   // (Ἲ)
+            "\u1f3c",   // (Ἴ)
+            "\u1f3e",   // (Ἶ)
+            // 共 11 个
+        };
+
         // ③有气号以外的其它变音符号（Ί Ί Ὶ Ϊ Ῐ Ῑ Ἰ Ἲ Ἴ）不转换；
         static string[] upper_iota_diacritics_exclude_dasia = new string[] {
             "\u038a",   // (Ί)
@@ -1391,11 +1560,33 @@ namespace GreekTrans
             "\u1f3c",   // (Ἴ)
         };
 
+        // ⑦希腊字母集合7：ἱ ἵ ἳ ἷ（4个）
         static string[] lower_iota_with_dasia = new string[] {
             "\u1f31",   // (ἱ)
             "\u1f35",   // (ἵ)
             "\u1f33",   // (ἳ)
             "\u1f37",   // (ἷ)
+        };
+
+        // ⑧希腊字母集合8：ι ί ί ὶ ϊ ῐ ῑ ΐ ΐ ῒ ἰ ἴ ἲ ῖ ῗ ἶ（16个）
+        static string[] lower_iota_without_dasia = new string[] {
+            "\u03b9",   // (ι)
+            "\u03af",   // (ί)
+            "\u1f77",   // (ί)
+            "\u1f76",   // (ὶ)
+            "\u03ca",   // (ϊ)
+            "\u1fd0",   // (ῐ)
+            "\u1fd1",   // (ῑ)
+            "\u0390",   // (ΐ)
+            "\u1fd3",   // (ΐ)
+            "\u1fd2",   // (ῒ)
+            "\u1f30",   // (ἰ)
+            "\u1f34",   // (ἴ)
+            "\u1f32",   // (ἲ)
+            "\u1fd6",   // (ῖ)
+            "\u1fd7",   // (ῗ)
+            "\u1f36",   // (ἶ)
+            // 共 16 个
         };
 
         // ③有气号以外的其它变音符号（ί ί ὶ ϊ ῐ ῑ ΐ ΐ ῒ ἰ ἴ ἲ ῖ ῗ ἶ）不转换；
@@ -1417,6 +1608,30 @@ namespace GreekTrans
             "\u1f36",   // (ἶ)
         };
 
+        // ⑨希腊字母集合9：Ὑ Ὕ Ὓ Ὗ（4个）
+        static string[] upper_upsilon_with_dasia = new string[] {
+            "\u1f59",   // (Ὑ)
+            "\u1f5d",   // (Ὕ)
+            "\u1f5b",   // (Ὓ)
+            "\u1f5f",   // (Ὗ)
+            // 共 4 个        
+        };
+
+        // ⑩希腊字母集合10（upper_Υ_without dasia）：Υ Ύ Ύ Ὺ Ϋ Ῠ Ῡ ϒ ϓ ϔ（10个）
+        static string[] upper_upsilon_without_dasia = new string[] {
+            "\u03a5",   // (Υ)
+            "\u038e",   // (Ύ)
+            "\u1feb",   // (Ύ)
+            "\u1fea",   // (Ὺ)
+            "\u03ab",   // (Ϋ)
+            "\u1fe8",   // (Ῠ)
+            "\u1fe9",   // (Ῡ)
+            "\u03d2",   // (ϒ)
+            "\u03d3",   // (ϓ)
+            "\u03d4",   // (ϔ)
+            // 共 10 个        
+        };
+
         // ③有气号（Dasia）以外其它变音符号（Ύ Ύ Ὺ Ϋ Ῠ Ῡ ϒ ϓ ϔ）不转换；
         static string[] upper_upsilon_diacritics_exclude_dasia = new string[] {
             "\u038e",   // (Ύ)
@@ -1429,6 +1644,37 @@ namespace GreekTrans
             "\u03d3",   // (ϓ)
             "\u03d4",   // (ϔ)
         };
+
+        // ⑪希腊字母集合11（lower_υ_with dasia）：ὑ ὕ ὓ ὗ（4个）
+        static string[] lower_upsilon_with_dasia = new string[] {
+            "\u1f51",   // (ὑ)
+            "\u1f55",   // (ὕ)
+            "\u1f53",   // (ὓ)
+            "\u1f57",   // (ὗ)
+            // 共 4 个        
+        };
+
+        // ⑫希腊字母集合12（lower_υ_without dasia）：υ ύ ύ ὺ ϋ ῠ ῡ ΰ ΰ ῢ ὐ ὔ ὒ ῦ ῧ ὖ（16个）
+        static string[] lower_upsilon_without_dasia = new string[] {
+            "\u03c5",   // (υ)
+            "\u03cd",   // (ύ)
+            "\u1f7b",   // (ύ)
+            "\u1f7a",   // (ὺ)
+            "\u03cb",   // (ϋ)
+            "\u1fe0",   // (ῠ)
+            "\u1fe1",   // (ῡ)
+            "\u03b0",   // (ΰ)
+            "\u1fe3",   // (ΰ)
+            "\u1fe2",   // (ῢ)
+            "\u1f50",   // (ὐ)
+            "\u1f54",   // (ὔ)
+            "\u1f52",   // (ὒ)
+            "\u1fe6",   // (ῦ)
+            "\u1fe7",   // (ῧ)
+            "\u1f56",   // (ὖ)
+            // 共 16 个        
+        };
+
 
         // ③有气号（Dasia）以外其它变音符号（ύ ύ ὺ ϋ ῠ ῡ ΰ ΰ ῢ ὐ ὔ ὒ ῦ ῧ ὖ）不转换；
         static string[] lower_upsilon_diacritics_exclude_dasia = new string[] {
@@ -1448,6 +1694,8 @@ namespace GreekTrans
             "\u1fe7",   // (ῧ)
             "\u1f56",   // (ὖ)
         };
+
+        #endregion
 
         #region utility functions
 

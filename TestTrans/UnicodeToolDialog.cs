@@ -87,5 +87,54 @@ namespace TestTrans
         {
             this.textBox_text.Text = this.textBox_text.Text.Normalize();
         }
+
+        private void button_collectionText_Click(object sender, EventArgs e)
+        {
+            List<string> results = new List<string>();
+            foreach (var line in this.textBox_text.Lines)
+            {
+                if (line.Contains("(") == false)
+                    continue;
+                string left;
+                string right = "";
+                int index = line.IndexOfAny(new char[] { ' ', '\t' });
+                if (index != -1)
+                {
+                    left = line.Substring(0, index).Trim();
+                    right = line.Substring(index + 1).Trim();
+                }
+                else
+                    left = line.Trim();
+
+                results.Add($"            \"\\u{left}\",   // {right}");
+            }
+
+            results.Add($"            // 共 {results.Count} 个");
+            this.textBox_unicode.Text = String.Join("\r\n", results);
+        }
+
+        private void button_testCaseText_Click(object sender, EventArgs e)
+        {
+            //         [InlineData("αὗ→hau")]
+            List<string> results = new List<string>();
+            int number = 1;
+            foreach (var line in this.textBox_text.Lines)
+            {
+                if (line.StartsWith("//"))
+                {
+                    results.Add($"            {line}");
+                    continue;
+                }
+
+                if (line.Contains('→') == false)
+                    continue;
+
+                results.Add($"         [InlineData({number}, \"{line.Trim()}\")]");
+                number++;
+            }
+
+            results.Add($"            // 共 {results.Count} 个");
+            this.textBox_unicode.Text = String.Join("\r\n", results);
+        }
     }
 }

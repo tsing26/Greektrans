@@ -1,29 +1,43 @@
 ﻿@model GreekTransWeb.Models.TestViewModel
 @{
-    ViewBag.Title = "希腊文转写测试";
+    ViewBag.Title = "Greek Transliter Testing";
 }
 <article>
     <form asp-controller="home" asp-action="test" method="post">
-        <header><h2 class="text-center">测试</h2></header>
+        <header><h2 class="text-center">Testing</h2></header>
         <div asp-validation-summary="All" class="text-danger"></div>
 
         <fieldset>
             <label asp-for="InputLines">
-                测试条目:
+                Test items:
                 <div>
-                    <textarea asp-for="InputLines" placeholder="在这儿输入测试条目，每行一个条目，格式为 ἅβα*→haba" rows="10" required></textarea>
+                    <textarea asp-for="InputLines" placeholder="Input testing items, each item as a line, item format: ἅβα*→haba" rows="10" required></textarea>
                     <span asp-validation-for="InputLines" class="text-danger"></span>
                 </div>
             </label>
         </fieldset>
 
-        <button type="submit">测试</button>
+        <button type="submit">Test</button>
 
         <fieldset>
             @if (Model.TestResults != null)
             {
                 <label asp-for="TestResults">
-                    测试结果:
+                    Testing results:
+                    <div>
+                        @if (Model.SucceedCount > 0)
+                        {
+                            <span><i class="bi bi-check-circle-fill" style="color:green"></i>Succeed: @Model.SucceedCount</span>
+                        }
+                        @if (Model.FailedCount > 0)
+                        {
+                            <span><i class="bi bi-x-circle-fill" style="color:red"></i>Failed: @Model.FailedCount</span>
+                        }
+                        @if (Model.ErrorCount > 0)
+                        {
+                            <span><i class="bi bi-slash-circle-fill" style="color:darkred"></i>Error: @Model.ErrorCount</span>
+                        }
+                    </div>
                     <table>
                         <thead>
                             <tr>
@@ -90,7 +104,7 @@
             @if (string.IsNullOrEmpty(Model.ErrorInfo) == false)
             {
                 <label asp-for="ErrorInfo">
-                    测试过程出现异常:
+                    Exceptions:
                     <textarea class="text-danger">@Model.ErrorInfo</textarea>
                 </label>
             }

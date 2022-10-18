@@ -11,7 +11,7 @@ namespace GreekTransWeb.Controllers
 {
     [ApiController]
     [ApiVersion("1.0")]
-    [ApiExplorerSettings(GroupName = "v1")]
+    // [ApiExplorerSettings(GroupName = "v1")]
     //[Route("greektrans/[controller]/[action]")]
     [Route("api/[action]")]
     [Route("api/v1/[action]")]

@@ -1,3 +1,5 @@
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.Hosting.Internal;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Filters;
 using static GreekTransWeb.Controllers.ApiController;
@@ -70,9 +72,11 @@ namespace GreekTransWeb
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint($"/swagger/v1/swagger.json", "GreekTrans API V1");
-                c.SwaggerEndpoint($"/swagger/swagger.json", "GreekTrans API V1");
+                // https://github.com/domaindrivendev/Swashbuckle.WebApi/issues/971#issuecomment-335653350
+                c.SwaggerEndpoint($"v1/swagger.json", "GreekTrans API V1");
             });
+
+            // app.UseSwaggerUI(swaggerUrl: Configuration["AppSettings:VirtualDirectory"] + "/swagger/v1/swagger.json");
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
