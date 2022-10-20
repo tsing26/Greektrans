@@ -1948,13 +1948,14 @@ namespace GreekTrans
         // ④希腊字母集合（lower_epsilon_without_dasia）：έ έ ὲ ἐ ἔ ἒ（6个）→e
         // 本集合中字符罗马化为拉丁字母e。
         static string[] lower_epsilon_without_dasia = new string[] {
+            "\u03b5",   // (ε)  // ? 2022/10/20 添加
             "\u03ad",   // (έ)
             "\u1f73",   // (έ)
             "\u1f72",   // (ὲ)
             "\u1f10",   // (ἐ)
             "\u1f14",   // (ἔ)
             "\u1f12",   // (ἒ)
-            // 共 6 个        
+            // 共 6(7?) 个        
         };
 
         // ③有气号（Dasia）以外其它变音符号（Έ Έ Ὲ Ἐ Ἔ Ἒ）不转换；
