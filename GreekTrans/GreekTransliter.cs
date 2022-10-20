@@ -291,6 +291,7 @@ namespace GreekTrans
             string s1 = greek.Substring(0, 1);
             string s2 = greek.Substring(1, 1);
 
+            // *** Alpha Iota 相关 ***
             if (upper_alpha_without_dasia.Where(x => s1 == x).Any())
             {
                 // 集合②+集合⑤→HAI；
@@ -327,6 +328,7 @@ namespace GreekTrans
                     return "ai";
             }
 
+            // *** Alpha Upsilon 相关 ***
             if (upper_alpha_without_dasia.Where(x => s1 == x).Any())
             {
                 // 集合（upper_alpha_without_dasia）+ 集合（upper_upsilon_with_dasia）→HAU；
@@ -356,6 +358,258 @@ namespace GreekTrans
                 if (lower_upsilon_without_dasia.Where(x => s2 == x).Any())
                     return "au";
             }
+
+            // *** Epsilon Iota 相关 ***
+
+            if (upper_epsilon_without_dasia.Where(x => s1 == x).Any())
+            {
+                // 集合（upper_epsilon_without_dasia）+集合（upper_iota_with_dasia）→HEI；
+                if (upper_iota_with_dasia.Where(x => s2 == x).Any())
+                    return "HEI";
+                // 集合（upper_epsilon_without_dasia）+集合（upper_iota_without_dasia）→EI；
+                if (upper_iota_without_dasia.Where(x => s2 == x).Any())
+                    return "EI";
+                // 集合（upper_epsilon_without_dasia）+集合（lower_iota_with_dasia）→Hei；
+                if (lower_iota_with_dasia.Where(x => s2 == x).Any())
+                    return "Hei";
+                // 集合（upper_epsilon_without_dasia）+集合（lower_iota_without_dasia）→Ei；
+                if (lower_iota_without_dasia.Where(x => s2 == x).Any())
+                    return "Ei";
+            }
+
+            if (lower_epsilon_without_dasia.Where(x => s1 == x).Any())
+            {
+                // 集合（lower_epsilon_without_dasia）+集合（lower_iota_with_dasia）→hei；
+                if (lower_iota_with_dasia.Where(x => s2 == x).Any())
+                    return "hei";
+                // 集合（lower_epsilon_without_dasia）+集合（lower_iota_without_dasia）→ei。
+                if (lower_iota_without_dasia.Where(x => s2 == x).Any())
+                    return "ei";
+            }
+
+            // *** Epsilon Upsilon 相关 ***
+            if (upper_epsilon_without_dasia.Where(x => s1 == x).Any())
+            {
+                // 集合（upper_epsilon_without_dasia）+集合（upper_upsilon_with_dasia）→HEU；
+                if (upper_upsilon_with_dasia.Where(x => s2 == x).Any())
+                    return "HEU";
+                // 集合（upper_epsilon_without_dasia）+集合（upper_upsilon_without_dasia）→EU；
+                if (upper_upsilon_without_dasia.Where(x => s2 == x).Any())
+                    return "EU";
+                // 集合（upper_epsilon_without_dasia）+集合（lower_upsilon_with_dasia）→Heu；
+                if (lower_upsilon_with_dasia.Where(x => s2 == x).Any())
+                    return "Heu";
+                // 集合（upper_epsilon_without_dasia）+集合（lower_upsilon_without_dasia）→Eu；
+                if (lower_upsilon_without_dasia.Where(x => s2 == x).Any())
+                    return "Eu";
+            }
+
+            if (lower_epsilon_without_dasia.Where(x => s1 == x).Any())
+            {
+                // 集合（lower_epsilon_without_dasia）+集合（lower_upsilon_with_dasia）→heu；
+                if (lower_upsilon_with_dasia.Where(x => s2 == x).Any())
+                    return "heu";
+                // 集合（lower_epsilon_without_dasia）+集合（lower_upsilon_without_dasia）→eu。
+                if (lower_upsilon_without_dasia.Where(x => s2 == x).Any())
+                    return "eu";
+            }
+
+            // *** Eta Iota 相关 ***
+
+            if (upper_eta_without_dasia.Where(x => s1 == x).Any())
+            {
+                // 集合（upper_eta_without_dasia）+集合（upper_iota_with_dasia）→HĒI；
+                if (upper_iota_with_dasia.Where(x => s2 == x).Any())
+                    return "HĒI";
+                // 集合（upper_eta_without_dasia）+集合（upper_iota_without_dasia）→ĒI；
+                if (upper_iota_without_dasia.Where(x => s2 == x).Any())
+                    return "ĒI";
+                // 集合（upper_eta_without_dasia）+集合（lower_iota_with_dasia）→Hēi；
+                if (lower_iota_with_dasia.Where(x => s2 == x).Any())
+                    return "Hēi";
+                // 集合（upper_eta_without_dasia）+集合（lower_iota_without_dasia）→Ēi；
+                if (lower_iota_without_dasia.Where(x => s2 == x).Any())
+                    return "Ēi";
+            }
+
+            if (lower_eta_without_dasia.Where(x => s1 == x).Any())
+            {
+                // 集合（lower_eta_without_dasia）+集合（lower_iota_with_dasia）→hēi；
+                if (lower_iota_with_dasia.Where(x => s2 == x).Any())
+                    return "hēi";
+                // 集合（lower_eta_without_dasia）+集合（lower_iota_without_dasia）→ēi。
+                if (lower_iota_without_dasia.Where(x => s2 == x).Any())
+                    return "ēi";
+            }
+
+            // *** Eta Upsilon 相关 ***
+
+            if (upper_eta_without_dasia.Where(x => s1 == x).Any())
+            {
+                // 集合（upper_eta_without_dasia）+集合（upper_upsilon_with_dasia）→HĒU；
+                if (upper_upsilon_with_dasia.Where(x => s2 == x).Any())
+                    return "HĒU";
+                // 集合（upper_eta_without_dasia）+集合（upper_upsilon_without_dasia）→ĒU；
+                if (upper_upsilon_without_dasia.Where(x => s2 == x).Any())
+                    return "ĒU";
+                // 集合（upper_eta_without_dasia）+集合（lower_upsilon_with_dasia）→Hēu；
+                if (lower_upsilon_with_dasia.Where(x => s2 == x).Any())
+                    return "Hēu";
+                // 集合（upper_eta_without_dasia）+集合（lower_upsilon_without_dasia）→Ēu；
+                if (lower_upsilon_without_dasia.Where(x => s2 == x).Any())
+                    return "Ēu";
+            }
+
+            if (lower_eta_without_dasia.Where(x => s1 == x).Any())
+            {
+                // 集合（lower_eta_without_dasia）+集合（lower_upsilon_with_dasia）→hēu；
+                if (lower_upsilon_with_dasia.Where(x => s2 == x).Any())
+                    return "hēu";
+                // 集合（lower_eta_without_dasia）+集合（lower_upsilon_without_dasia）→ēu。
+                if (lower_upsilon_without_dasia.Where(x => s2 == x).Any())
+                    return "ēu";
+            }
+
+            // *** Omega Iota 相关 ***
+
+            if (upper_omega_without_dasia.Where(x => s1 == x).Any())
+            {
+                // 集合（upper_omega_without_dasia）+集合（upper_iota_with_dasia）→HŌI；
+                if (upper_iota_with_dasia.Where(x => s2 == x).Any())
+                    return "HŌI";
+                // 集合（upper_omega_without_dasia）+集合（upper_iota_without_dasia）→ŌI；
+                if (upper_iota_without_dasia.Where(x => s2 == x).Any())
+                    return "ŌI";
+                // 集合（upper_omega_without_dasia）+集合（lower_iota_with_dasia）→Hōi；
+                if (lower_iota_with_dasia.Where(x => s2 == x).Any())
+                    return "Hōi";
+                // 集合（upper_omega_without_dasia）+集合（lower_iota_without_dasia）→Ōi；
+                if (lower_iota_without_dasia.Where(x => s2 == x).Any())
+                    return "Ōi";
+            }
+
+            if (lower_omega_without_dasia.Where(x => s1 == x).Any())
+            {
+                // 集合（lower_omega_without_dasia）+集合（lower_iota_with_dasia）→hōi；
+                if (lower_iota_with_dasia.Where(x => s2 == x).Any())
+                    return "hōi";
+                // 集合（lower_omega_without_dasia）+集合（lower_iota_without_dasia）→ōi。
+                if (lower_iota_without_dasia.Where(x => s2 == x).Any())
+                    return "ōi";
+            }
+
+            // *** Omega Upsilon 相关 ***
+
+            if (upper_omega_without_dasia.Where(x => s1 == x).Any())
+            {
+                // 集合（upper_omega_without_dasia）+集合（upper_upsilon_with_dasia）→HŌU；
+                if (upper_upsilon_with_dasia.Where(x => s2 == x).Any())
+                    return "HŌU";
+                // 集合（upper_omega_without_dasia）+集合（upper_upsilon_without_dasia）→ŌU；
+                if (upper_upsilon_without_dasia.Where(x => s2 == x).Any())
+                    return "ŌU";
+                // 集合（upper_omega_without_dasia）+集合（lower_upsilon_with_dasia）→Hōu；
+                if (lower_upsilon_with_dasia.Where(x => s2 == x).Any())
+                    return "Hōu";
+                // 集合（upper_omega_without_dasia）+集合（lower_upsilon_without_dasia）→Ōu；
+                if (lower_upsilon_without_dasia.Where(x => s2 == x).Any())
+                    return "Ōu";
+            }
+
+            if (lower_omega_without_dasia.Where(x => s1 == x).Any())
+            {
+                // 集合（lower_omega_without_dasia）+集合（lower_upsilon_with_dasia）→hōu；
+                if (lower_upsilon_with_dasia.Where(x => s2 == x).Any())
+                    return "hōu";
+                // 集合（lower_omega_without_dasia）+集合（lower_upsilon_without_dasia）→ōu。
+                if (lower_upsilon_without_dasia.Where(x => s2 == x).Any())
+                    return "ōu";
+            }
+
+            // *** Omicron Iota 相关 ***
+
+            if (upper_omicron_without_dasia.Where(x => s1 == x).Any())
+            {
+                // 集合（upper_omicron_without_dasia）+集合（upper_iota_with_dasia）→HOI；
+                if (upper_iota_with_dasia.Where(x => s2 == x).Any())
+                    return "HOI";
+                // 集合（upper_omicron_without_dasia）+集合（upper_iota_without_dasia）→OI；
+                if (upper_iota_without_dasia.Where(x => s2 == x).Any())
+                    return "OI";
+                // 集合（upper_omicron_without_dasia）+集合（lower_iota_with_dasia）→Hoi；
+                if (lower_iota_with_dasia.Where(x => s2 == x).Any())
+                    return "Hoi";
+                // 集合（upper_omicron_without_dasia）+集合（lower_iota_without_dasia）→Oi；
+                if (lower_iota_without_dasia.Where(x => s2 == x).Any())
+                    return "Oi";
+            }
+
+            if (lower_omicron_without_dasia.Where(x => s1 == x).Any())
+            {
+                // 集合（lower_omicron_without_dasia）+集合（lower_iota_with_dasia）→hoi；
+                if (lower_iota_with_dasia.Where(x => s2 == x).Any())
+                    return "hoi";
+                // 集合（lower_omicron_without_dasia）+集合（lower_iota_without_dasia）→oi。
+                if (lower_iota_without_dasia.Where(x => s2 == x).Any())
+                    return "oi";
+            }
+
+            // *** Omicron Upsilon 相关 ***
+
+            if (upper_omicron_without_dasia.Where(x => s1 == x).Any())
+            {
+                // 集合（upper_omicron_without_dasia）+集合（upper_upsilon_with_dasia）→HOU；
+                if (upper_upsilon_with_dasia.Where(x => s2 == x).Any())
+                    return "HOU";
+                // 集合（upper_omicron_without_dasia）+集合（upper_upsilon_without_dasia）→OU；
+                if (upper_upsilon_without_dasia.Where(x => s2 == x).Any())
+                    return "OU";
+                // 集合（upper_omicron_without_dasia）+集合（lower_upsilon_with_dasia）→Hou；
+                if (lower_upsilon_with_dasia.Where(x => s2 == x).Any())
+                    return "Hou";
+                // 集合（upper_omicron_without_dasia）+集合（lower_upsilon_without_dasia）→Ou；
+                if (lower_upsilon_without_dasia.Where(x => s2 == x).Any())
+                    return "Ou";
+            }
+
+            if (lower_omicron_without_dasia.Where(x => s1 == x).Any())
+            {
+                // 集合（lower_omicron_without_dasia）+集合（lower_upsilon_with_dasia）→hou；
+                if (lower_upsilon_with_dasia.Where(x => s2 == x).Any())
+                    return "hou";
+                // 集合（lower_omicron_without_dasia）+集合（lower_upsilon_without_dasia）→ou。
+                if (lower_upsilon_without_dasia.Where(x => s2 == x).Any())
+                    return "ou";
+            }
+
+            // *** Upsilon Iota 相关 ***
+
+            if (upper_upsilon_without_dasia.Where(x => s1 == x).Any())
+            {
+                // 集合（upper_upsilon_without_dasia）+集合（upper_iota_with_dasia）→HUI；
+                if (upper_iota_with_dasia.Where(x => s2 == x).Any())
+                    return "HUI";
+                // 集合（upper_upsilon_without_dasia）+集合（upper_iota_without_dasia）→UI；
+                if (upper_iota_without_dasia.Where(x => s2 == x).Any())
+                    return "UI";
+                // 集合（upper_upsilon_without_dasia）+集合（lower_iota_with_dasia）→Hui；
+                if (lower_iota_with_dasia.Where(x => s2 == x).Any())
+                    return "Hui";
+                // 集合（upper_upsilon_without_dasia）+集合（lower_iota_without_dasia）→Ui；
+                if (lower_iota_without_dasia.Where(x => s2 == x).Any())
+                    return "Ui";
+            }
+
+            if (lower_upsilon_without_dasia.Where(x => s1 == x).Any())
+            {
+                // 集合（lower_upsilon_without_dasia）+集合（lower_iota_with_dasia）→hui；
+                if (lower_iota_with_dasia.Where(x => s2 == x).Any())
+                    return "hui";
+                // 集合（lower_upsilon_without_dasia）+集合（lower_iota_without_dasia）→ui。
+                if (lower_iota_without_dasia.Where(x => s2 == x).Any())
+                    return "ui";
+            }
+
 
             return null;
         }
@@ -755,7 +1009,7 @@ namespace GreekTrans
                 return "HŌ";
 
             // ③有气号（Dasia）以外其它变音符号（Ώ Ώ Ὼ Ὠ Ὤ Ὢ ᾮ Ὦ ᾨ ᾬ ᾪ ῼ）不转换。
-            if (upper_omega_diacritics_exclude_dasia.Where(x => greek == x).Any())
+            if (upper_omega_without_dasia/*upper_omega_diacritics_exclude_dasia*/.Where(x => greek == x).Any())
                 return "Ō";
 
             // === digamma ===
@@ -1147,7 +1401,7 @@ namespace GreekTrans
             if (IsLowerOmegaWithDasia(greek))
                 return "hō";
             // ③有气号（Dasia）以外其它变音符号（ώ ώ ὼ ῷ ὠ ὤ ὢ ᾦ ῶ ῳ ῴ ῲ ὦ ᾠ ᾤ ᾢ）不转换。
-            if (lower_omega_diacritics_exclude_dasia.Where(x => greek == x).Any())
+            if (lower_omega_without_dasia/*lower_omega_diacritics_exclude_dasia*/.Where(x => greek == x).Any())
                 return "ō";
 
             // *** 古体字母
@@ -1166,6 +1420,8 @@ namespace GreekTrans
         }
 
         #region 字母集合
+
+        #region 字母 Alpha
 
         // 带有气号的希腊文 Alpha 字母
         // ①希腊字母集合1：Ἁ Ἃ Ἅ Ἇ ᾉ ᾋ ᾍ ᾏ（8个）→HA
@@ -1338,6 +1594,32 @@ namespace GreekTrans
             return lower_alpha_with_dasia.Where(x => char_string == x).Any();
         }
 
+        #endregion
+
+        #region 字母 Omicron
+
+        // ①希腊字母集合（upper_omicron_with_dasia）：Ὁ Ὅ Ὃ（3个）→HO
+        // 集合中字符转换为拉丁字母HO。
+        static string[] upper_omicron_with_dasia = new string[] {
+            "\u1f49",   // (Ὁ)
+            "\u1f4d",   // (Ὅ)
+            "\u1f4b",   // (Ὃ)
+            // 共 3 个        
+        };
+
+        // ②希腊字母集合（upper_omicron_without_dasia）：Ο Ό Ό Ὸ Ὀ Ὄ Ὂ（7个）→O
+        // 集合中字符罗马化为拉丁字母O。
+        static string[] upper_omicron_without_dasia = new string[] {
+            "\u039f",   // (Ο)
+            "\u038c",   // (Ό)
+            "\u1ff9",   // (Ό)
+            "\u1ff8",   // (Ὸ)
+            "\u1f48",   // (Ὀ)
+            "\u1f4c",   // (Ὄ)
+            "\u1f4a",   // (Ὂ)
+            // 共 7 个        
+        };
+
         // ③有气号（Dasia）以外其它变音符号（Ό Ό Ὸ Ὀ Ὄ Ὂ）不转换；
         static string[] upper_omicron_diacritics_exclude_dasia = new string[] {
             "\u038c",   // (Ό)
@@ -1346,6 +1628,28 @@ namespace GreekTrans
             "\u1f48",   // (Ὀ)
             "\u1f4c",   // (Ὄ)
             "\u1f4a",   // (Ὂ)
+        };
+
+        // ③希腊字母集合（lower_omicron_with_dasia）：ὁ ὅ ὃ（3个）→ho
+        // 集合中个字符罗马化为拉丁字母ho。
+        static string[] lower_omicron_with_dasia = new string[] {
+            "\u1f41",   // (ὁ)
+            "\u1f45",   // (ὅ)
+            "\u1f43",   // (ὃ)
+            // 共 3 个        
+        };
+
+        // ④希腊字母集合（lower_omicron_without_dasia）：ο ό ό ὸ ὀ ὄ ὂ（7个）→o
+        // 集合中字符罗马化为拉丁字母ο。
+        static string[] lower_omicron_without_dasia = new string[] {
+            "\u03bf",   // (ο)
+            "\u03cc",   // (ό)
+            "\u1f79",   // (ό)
+            "\u1f78",   // (ὸ)
+            "\u1f40",   // (ὀ)
+            "\u1f44",   // (ὄ)
+            "\u1f42",   // (ὂ)
+            // 共 7 个        
         };
 
         // ③有气号（Dasia）以外其它变音符号（ό ό ὸ ὀ ὄ ὂ）不转换；
@@ -1358,7 +1662,12 @@ namespace GreekTrans
             "\u1f42",   // (ὂ)
         };
 
-        // ②Ὡ→HŌ、Ὥ→HŌ、Ὣ→HŌ、ᾯ→HŌ、Ὧ→HŌ、ᾩ→HŌ、ᾭ→HŌ、ᾫ→HŌ；
+        #endregion
+
+        #region 字母 Omega
+
+        // ①希腊字母集合（upper_omega_with_dasia）：Ὡ Ὥ Ὣ ᾯ Ὧ ᾩ ᾭ ᾫ（8个）→HŌ
+        // 集合中字符罗马化为拉丁字母HŌ。
         static string[] upper_omega_with_dasia = new string[] {
             "\u1f69",   // (Ὡ)
             "\u1f6d",   // (Ὥ)
@@ -1368,6 +1677,7 @@ namespace GreekTrans
             "\u1fa9",   // (ᾩ)
             "\u1fad",   // (ᾭ)
             "\u1fab",   // (ᾫ)
+            // 共 8 个
         };
 
         // 带变音符号的大写 Omega
@@ -1376,6 +1686,26 @@ namespace GreekTrans
             return upper_omega_with_dasia.Where(x => char_string == x).Any();
         }
 
+        // ②希腊字母集合（upper_omega_without_dasia）：Ω Ώ Ώ Ὼ Ὠ Ὤ Ὢ ᾮ Ὦ ᾨ ᾬ ᾪ ῼ（13个）→Ō
+        // 集合中字符罗马化为拉丁字母Ō。
+        static string[] upper_omega_without_dasia = new string[] {
+            "\u03a9",   // (Ω)
+            "\u038f",   // (Ώ)
+            "\u1ffb",   // (Ώ)
+            "\u1ffa",   // (Ὼ)
+            "\u1f68",   // (Ὠ)
+            "\u1f6c",   // (Ὤ)
+            "\u1f6a",   // (Ὢ)
+            "\u1fae",   // (ᾮ)
+            "\u1f6e",   // (Ὦ)
+            "\u1fa8",   // (ᾨ)
+            "\u1fac",   // (ᾬ)
+            "\u1faa",   // (ᾪ)
+            "\u1ffc",   // (ῼ)
+            // 共 13 个        
+        };
+
+        /*
         // ③有气号（Dasia）以外其它变音符号（Ώ Ώ Ὼ Ὠ Ὤ Ὢ ᾮ Ὦ ᾨ ᾬ ᾪ ῼ）不转换。
         static string[] upper_omega_diacritics_exclude_dasia = new string[] {
             "\u038f",   // (Ώ)
@@ -1391,7 +1721,10 @@ namespace GreekTrans
             "\u1faa",   // (ᾪ)
             "\u1ffc",   // (ῼ)
         };
+        */
 
+        // ③希腊字母集合（lower_omega_with_dasia）：ὡ ὥ ὣ ᾧ ὧ ᾡ ᾥ ᾣ（8个）→hō
+        // 集合中字符转换为拉丁字母hō。
         // ②ὡ→hō、ὥ→hō、ὣ→hō、ᾧ→hō、ὧ→hō、ᾡ→hō、ᾥ→hō、ᾣ→hō；
         static string[] lower_omega_with_dasia = new string[] {
             "\u1f61",   // (ὡ)
@@ -1402,6 +1735,7 @@ namespace GreekTrans
             "\u1fa1",   // (ᾡ)
             "\u1fa5",   // (ᾥ)
             "\u1fa3",   // (ᾣ)
+            // 共 8 个
         };
 
         // 带变音符号的小写 Omega
@@ -1410,6 +1744,30 @@ namespace GreekTrans
             return lower_omega_with_dasia.Where(x => char_string == x).Any();
         }
 
+        // ④希腊字母集合（lower_omega_without_dasia）：ω ώ ώ ὼ ῷ ὠ ὤ ὢ ᾦ ῶ ῳ ῴ ῲ ὦ ᾠ ᾤ ᾢ（17个）→ō
+        // 集合中字符转换为拉丁字母ō。
+        static string[] lower_omega_without_dasia = new string[] {
+            "\u03c9",   // (ω)  // issue 中缺这个
+            "\u03ce",   // (ώ)
+            "\u1f7d",   // (ώ)
+            "\u1f7c",   // (ὼ)
+            "\u1ff7",   // (ῷ)
+            "\u1f60",   // (ὠ)
+            "\u1f64",   // (ὤ)
+            "\u1f62",   // (ὢ)
+            "\u1fa6",   // (ᾦ)
+            "\u1ff6",   // (ῶ)
+            "\u1ff3",   // (ῳ)
+            "\u1ff4",   // (ῴ)
+            "\u1ff2",   // (ῲ)
+            "\u1f66",   // (ὦ)
+            "\u1fa0",   // (ᾠ)
+            "\u1fa4",   // (ᾤ)
+            "\u1fa2",   // (ᾢ)
+            // 共 16 个        
+        };
+
+        /*
         // ③有气号（Dasia）以外其它变音符号（ώ ώ ὼ ῷ ὠ ὤ ὢ ᾦ ῶ ῳ ῴ ῲ ὦ ᾠ ᾤ ᾢ）不转换。
         static string[] lower_omega_diacritics_exclude_dasia = new string[] {
             "\u03ce",   // (ώ)
@@ -1429,17 +1787,42 @@ namespace GreekTrans
             "\u1fa4",   // (ᾤ)
             "\u1fa2",   // (ᾢ)
         };
+        */
+        #endregion
 
-        // ②Ἡ→HĒ、Ἥ→HĒ、Ἣ→HĒ、ᾟ→HĒ、Ἧ→HĒ、ᾙ→HĒ、ᾝ→HĒ、ᾛ→HĒ；
+        #region 字母 Eta
+
+        // ①希腊字母集合（upper_eta_with_dasia）：Ἣ Ἡ Ἥ ᾟ Ἧ ᾙ ᾝ ᾛ（8个）→HĒ
+        // 集合中字符转换为拉丁字母HĒ。
         static string[] upper_eta_with_dasia = new string[] {
+            "\u1f2b",   // (Ἣ)
             "\u1f29",   // (Ἡ)
             "\u1f2d",   // (Ἥ)
-            "\u1f2b",   // (Ἣ)
             "\u1f9f",   // (ᾟ)
             "\u1f2f",   // (Ἧ)
             "\u1f99",   // (ᾙ)
             "\u1f9d",   // (ᾝ)
             "\u1f9b",   // (ᾛ)
+            // 共 8 个
+        };
+
+        // ②希腊字母集合（upper_eta_without_dasia）：Η Ή Ή Ὴ Ἠ Ἤ Ἢ ᾞ ῌ Ἦ ᾘ ᾜ ᾚ（13个）→Ē
+        // 集合中字符转换为拉丁字母Ē。
+        static string[] upper_eta_without_dasia = new string[] {
+            "\u0397",   // (Η)
+            "\u0389",   // (Ή)
+            "\u1fcb",   // (Ή)
+            "\u1fca",   // (Ὴ)
+            "\u1f28",   // (Ἠ)
+            "\u1f2c",   // (Ἤ)
+            "\u1f2a",   // (Ἢ)
+            "\u1f9e",   // (ᾞ)
+            "\u1fcc",   // (ῌ)
+            "\u1f2e",   // (Ἦ)
+            "\u1f98",   // (ᾘ)
+            "\u1f9c",   // (ᾜ)
+            "\u1f9a",   // (ᾚ)
+            // 共 13 个        
         };
 
         // 带变音符号的大写 Eta
@@ -1464,7 +1847,8 @@ namespace GreekTrans
             "\u1f9a",   // (ᾚ)
         };
 
-        // ②ἡ→hē、ἥ→hē、ἣ→hē、ᾗ→hē、ἧ→hē、ᾑ→hē、ᾕ→hē、ᾓ→hē；
+        // ③希腊字母集合（lower_eta_with_dasia）：ἡ ἥ ἣ ᾗ ἧ ᾑ ᾕ ᾓ（8个）→hē
+        // 集合中字符转换为拉丁字母hē。
         static string[] lower_eta_with_dasia = new string[] {
             "\u1f21",   // (ἡ)
             "\u1f25",   // (ἥ)
@@ -1474,6 +1858,30 @@ namespace GreekTrans
             "\u1f91",   // (ᾑ)
             "\u1f95",   // (ᾕ)
             "\u1f93",   // (ᾓ)
+            // 共 8 个
+        };
+
+        // ④希腊字母集合（lower_eta_without_dasia）：η ή ή ὴ ῇ ἠ ἤ ἢ ᾖ ῆ ῃ ῄ ῂ ἦ ᾐ ᾔ ᾒ（17个）→ē
+        // 集合中任意1个字符转换为拉丁字母ē。
+        static string[] lower_eta_without_dasia = new string[] {
+            "\u03b7",   // (η)
+            "\u03ae",   // (ή)
+            "\u1f75",   // (ή)
+            "\u1f74",   // (ὴ)
+            "\u1fc7",   // (ῇ)
+            "\u1f20",   // (ἠ)
+            "\u1f24",   // (ἤ)
+            "\u1f22",   // (ἢ)
+            "\u1f96",   // (ᾖ)
+            "\u1fc6",   // (ῆ)
+            "\u1fc3",   // (ῃ)
+            "\u1fc4",   // (ῄ)
+            "\u1fc2",   // (ῂ)
+            "\u1f26",   // (ἦ)
+            "\u1f90",   // (ᾐ)
+            "\u1f94",   // (ᾔ)
+            "\u1f92",   // (ᾒ)
+            // 共 17 个        
         };
 
         // 带变音符号的小写 Eta
@@ -1502,6 +1910,53 @@ namespace GreekTrans
             "\u1f92",   // (ᾒ)
         };
 
+        #endregion
+
+        #region 字母 Epsilon
+
+        // ①希腊字母集合（upper_epsilon_with_dasia）：Ἑ Ἕ Ἓ（3个）→HE
+        // 本集合中字符罗马化为拉丁字母HE。
+        static string[] upper_epsilon_with_dasia = new string[] {
+            "\u1f19",   // (Ἑ)
+            "\u1f1d",   // (Ἕ)
+            "\u1f1b",   // (Ἓ)
+            // 共 3 个
+        };
+
+        // ②希腊字母集合2（upper_epsilon_without_dasia）：Ε Έ Έ Ὲ Ἐ Ἔ Ἒ（7个）→E
+        // 本集合中字符罗马化为拉丁字母E。
+        static string[] upper_epsilon_without_dasia = new string[] {
+            "\u0395",   // (Ε)
+            "\u0388",   // (Έ)
+            "\u1fc9",   // (Έ)
+            "\u1fc8",   // (Ὲ)
+            "\u1f18",   // (Ἐ)
+            "\u1f1c",   // (Ἔ)
+            "\u1f1a",   // (Ἒ)
+            // 共 7 个        
+        };
+
+        // ③希腊字母集合（lower_epsilon_with_dasia）：ἑ ἕ ἓ（3个）→he
+        // 本集合中字符罗马化为拉丁字母he。
+        static string[] lower_epsilon_with_dasia = new string[] {
+            "\u1f11",   // (ἑ)
+            "\u1f15",   // (ἕ)
+            "\u1f13",   // (ἓ)
+            // 共 3 个        
+        };
+
+        // ④希腊字母集合（lower_epsilon_without_dasia）：έ έ ὲ ἐ ἔ ἒ（6个）→e
+        // 本集合中字符罗马化为拉丁字母e。
+        static string[] lower_epsilon_without_dasia = new string[] {
+            "\u03ad",   // (έ)
+            "\u1f73",   // (έ)
+            "\u1f72",   // (ὲ)
+            "\u1f10",   // (ἐ)
+            "\u1f14",   // (ἔ)
+            "\u1f12",   // (ἒ)
+            // 共 6 个        
+        };
+
         // ③有气号（Dasia）以外其它变音符号（Έ Έ Ὲ Ἐ Ἔ Ἒ）不转换；
         static string[] upper_epsilon_diacritics_exclude_dasia = new string[] {
             "\u0388",   // (Έ)
@@ -1521,6 +1976,10 @@ namespace GreekTrans
             "\u1f14",   // (ἔ)
             "\u1f12",   // (ἒ)
         };
+
+        #endregion
+
+        #region 字母 Iota
 
         // ⑤希腊字母集合5（upper_iota_with dasia）：Ἱ Ἵ Ἳ Ἷ（4个）
         static string[] upper_iota_with_dasia = new string[] {
@@ -1608,7 +2067,11 @@ namespace GreekTrans
             "\u1f36",   // (ἶ)
         };
 
-        // ⑨希腊字母集合9：Ὑ Ὕ Ὓ Ὗ（4个）
+        #endregion
+
+        #region 字母 Upsilon
+
+        // ⑨希腊字母集合（upper_upsilon_with_dasia）：Ὑ Ὕ Ὓ Ὗ（4个）
         static string[] upper_upsilon_with_dasia = new string[] {
             "\u1f59",   // (Ὑ)
             "\u1f5d",   // (Ὕ)
@@ -1617,7 +2080,7 @@ namespace GreekTrans
             // 共 4 个        
         };
 
-        // ⑩希腊字母集合10（upper_Υ_without dasia）：Υ Ύ Ύ Ὺ Ϋ Ῠ Ῡ ϒ ϓ ϔ（10个）
+        // ⑩希腊字母集合（upper_upsilon_without_dasia）：Υ Ύ Ύ Ὺ Ϋ Ῠ Ῡ ϒ ϓ ϔ（10个）
         static string[] upper_upsilon_without_dasia = new string[] {
             "\u03a5",   // (Υ)
             "\u038e",   // (Ύ)
@@ -1645,7 +2108,7 @@ namespace GreekTrans
             "\u03d4",   // (ϔ)
         };
 
-        // ⑪希腊字母集合11（lower_υ_with dasia）：ὑ ὕ ὓ ὗ（4个）
+        // ⑪希腊字母集合（lower_upsilon_with_dasia）：ὑ ὕ ὓ ὗ（4个）
         static string[] lower_upsilon_with_dasia = new string[] {
             "\u1f51",   // (ὑ)
             "\u1f55",   // (ὕ)
@@ -1654,7 +2117,7 @@ namespace GreekTrans
             // 共 4 个        
         };
 
-        // ⑫希腊字母集合12（lower_υ_without dasia）：υ ύ ύ ὺ ϋ ῠ ῡ ΰ ΰ ῢ ὐ ὔ ὒ ῦ ῧ ὖ（16个）
+        // ⑫希腊字母集合（lower_upsilon_without_dasia）：υ ύ ύ ὺ ϋ ῠ ῡ ΰ ΰ ῢ ὐ ὔ ὒ ῦ ῧ ὖ（16个）
         static string[] lower_upsilon_without_dasia = new string[] {
             "\u03c5",   // (υ)
             "\u03cd",   // (ύ)
@@ -1696,6 +2159,8 @@ namespace GreekTrans
         };
 
         #endregion
+
+        #endregion  // of 字母集合
 
         #region utility functions
 

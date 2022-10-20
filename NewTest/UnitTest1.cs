@@ -2062,11 +2062,11 @@ namespace NewTest
         [InlineData("δαφνηφορέω*→daphnēphoreō")]
         [InlineData("ΔΈ*→DE")]
         [InlineData("δεῖγμα*→deigma")]
-        [InlineData("ΔΈΚᾸ*→KEKA")]  // KEKA 疑似错误？
+        [InlineData("ΔΈΚᾸ*→DEKA")]  // KEKA 疑似错误？
         [InlineData("δεκαταῖος*→dekataios")]
         [InlineData("δεύτερος*→deuteros")]
         [InlineData("δήϊος*→dēios")]
-        [InlineData("δάγγειος→dangeios")] // 
+        [InlineData("δάγγειος→dangeios")]
         [InlineData("δαίμονας→daimonas")]
         [InlineData("γαιμόνιος→gaimonios")]
         [InlineData("δακρυσμένος→dakrysmenos")]
@@ -2076,7 +2076,7 @@ namespace NewTest
         [InlineData("δασκαλεύω→daskaleuō")]
         [InlineData("δασμολόθιον→dasmolothion")]
         [InlineData("δάσος→dasos")]
-        [InlineData("δασόφυτος→dasophutos")]
+        [InlineData("δασόφυτος→dasophytos")]
         // [InlineData("")]
         // [InlineData("")]
         // [InlineData("")]
