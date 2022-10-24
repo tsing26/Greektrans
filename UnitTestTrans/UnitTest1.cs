@@ -109,6 +109,7 @@ namespace UnitTestTrans
             Assert.AreEqual(target, result);
         }
 
+#if REMOVED
         [TestMethod]
         public void Test_string_04()
         {
@@ -119,7 +120,9 @@ namespace UnitTestTrans
             Compare(target, result);
             Assert.AreEqual(target, result);
         }
+#endif
 
+#if REMOVED
         [TestMethod]
         public void Test_string_05()
         {
@@ -130,6 +133,7 @@ namespace UnitTestTrans
             Compare(target, result);
             Assert.AreEqual(target, result);
         }
+#endif
 
         // 	
         [TestMethod]
@@ -272,7 +276,7 @@ namespace UnitTestTrans
             Assert.AreEqual(target, result);
         }
 
-        #endregion
+#endregion
     }
 
 }

@@ -82,7 +82,8 @@ namespace GreekTrans
                 if (char.IsControl(ch))
                     return true;
                 if (ch == ' ' || ch == ',' || ch == ';' || ch == '.'
-                    || ch == ':' || ch == '\'' || ch == '\t')
+                    || ch == ':' || ch == '\'' || ch == '\t'
+                    || ch == '-')
                     return true;
                 if (char.IsLetter(ch))
                     return false;
@@ -777,8 +778,15 @@ namespace GreekTrans
             // === theta ===
 
             // Θ→Th
+            /*
             if (greek == "Θ")
                 return "TH";
+            */
+            if (greek[0] == 'Θ')
+            {
+                step = 1;
+                return AdjustUpperLower("TH", IsSecondCharUpperCase(greek, false));
+            }
 
             // ============
             // === iota ===
@@ -883,8 +891,17 @@ namespace GreekTrans
             if (greek == "Ο")
                 return "O";
             // ②Ὁ→HO、Ὅ→HO、Ὃ→HO；
+            /*
             if (greek == "Ὁ" || greek == "Ὅ" || greek == "Ὃ")
                 return "HO";
+            */
+            if (greek[0] == 'Ὁ' || greek[0] == 'Ὅ' || greek[0] == 'Ὃ')
+            {
+                step = 1;
+                return AdjustUpperLower("HO", IsSecondCharUpperCase(greek, false));
+            }
+
+
             // ③有气号（Dasia）以外其它变音符号（Ό Ό Ὸ Ὀ Ὄ Ὂ）不转换；
             if (upper_omicron_diacritics_exclude_dasia.Where(x => greek == x).Any())
                 return "O";
@@ -919,8 +936,15 @@ namespace GreekTrans
             if (greek == "Ρ")
                 return "R";
             // ②Ῥ→RH。
+            /*
             if (greek == "Ῥ")  // （注：῾是希腊文Dasia，有气号）
                 return "RH"; //（参照注释）有气号（῾）罗马化为英文字母h。当有气号与元音或双元音同时出现时，字母h需前置于被罗马化的元音或双元音；当有气号和rho(῾Ρ,ῥ)一起出现时，字母h需后置于被罗马化的rho(Rh,rh)。当希腊语文本未出现有气号时，根据实际需要添加字母h（如文本全部是大写形式或现代希腊语文本都是单调正字法）。但是，只有现代希腊语文本出现有气号时，῾Ρ/ῥ被罗马化为Rh/rh。
+            */
+            if (greek[0] == 'Ῥ')
+            {
+                step = 1;
+                return AdjustUpperLower("RH", IsSecondCharUpperCase(greek, false));
+            }
 
             // =============
             // === sigma ===
@@ -978,20 +1002,39 @@ namespace GreekTrans
             {
                 if (is_tail == false)
                     step--; // 退回最后字母 greek[1] 让下次继续处理
-                return "HY";
+
+                return AdjustUpperLower("HY", IsSecondCharUpperCase(greek, false));
             }
 
             // ===========
             // === phi ===
             // Φ→Ph
+            /*
             if (greek == "Φ")
                 return "PH";
+            */
+
+            if (greek[0] == 'Φ')
+            {
+                step = 1;
+                return AdjustUpperLower("PH", IsSecondCharUpperCase(greek, false));
+            }
+
 
             // ===========
             // === chi ===
             // Χ→Ch
+            /*
             if (greek == "Χ")
+            {
                 return "CH";
+            }
+            */
+            if (greek[0] == 'Χ')
+            {
+                step = 1;
+                return AdjustUpperLower("CH", IsSecondCharUpperCase(greek, false));
+            }
 
             // ===========
             // === psi ===
@@ -2164,6 +2207,34 @@ namespace GreekTrans
         #endregion  // of 字母集合
 
         #region utility functions
+
+        // 判断第二个字符是否为大写
+        static bool IsSecondCharUpperCase(string text, bool default_value)
+        {
+            if (string.IsNullOrEmpty(text))
+                return default_value;
+            if (text.Length < 2)
+                return default_value;
+            return char.IsUpper(text[1]);
+
+        }
+
+        // 调整第二个字符的大小写
+        static string AdjustUpperLower(string text, bool upper_case)
+        {
+            if (string.IsNullOrEmpty(text))
+                return text;
+            if (text.Length != 2)
+            {
+                throw new ArgumentException($"{nameof(text)} 参数值 '{text}' 字符数不正确，应该为 2 字符");
+            }
+
+            if (char.IsUpper(text[1]) == upper_case)
+                return text;
+            if (upper_case)
+                return text.Substring(0, 1) + char.ToUpper(text[1]);
+            return text.Substring(0, 1) + char.ToLower(text[1]);
+        }
 
         public static void ParseTwoPart(string strText,
 string strSep,

@@ -56,7 +56,7 @@ namespace GreekTransWeb.Models
                 try
                 {
                     StringBuilder debugInfo = new StringBuilder();
-                    var result = GreekTransliter.TransliterWord(source, ancient, debugInfo);
+                    var result = GreekTransliter.TransliterString(source, ancient, debugInfo);
                     results.Add(new TestResult
                     {
                         Source = source,
