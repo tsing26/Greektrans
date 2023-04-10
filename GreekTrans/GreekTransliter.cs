@@ -785,7 +785,7 @@ namespace GreekTrans
             if (greek[0] == 'Θ')
             {
                 step = 1;
-                return AdjustUpperLower("TH", IsSecondCharUpperCase(greek, false));
+                return AdjustUpperLower("TH", IsSecondCharUpperCase(greek, true));
             }
 
             // ============
@@ -817,6 +817,7 @@ namespace GreekTrans
                     return "HOI";
             }
 
+#if REMOVED
             // ⑤Ι位于词首，其后紧随ΔΡ或δρ且紧随带变音符号的元音时，（20220919）ΙΔ→Hid、Ιδ→Hid
             if ((style & LookupStyle.head) != 0)
             {
@@ -825,6 +826,7 @@ namespace GreekTrans
                 if (greek == "Ιδ")
                     return "Hid";
             }
+#endif
 
             // =============
             // === kappa ===
@@ -898,7 +900,7 @@ namespace GreekTrans
             if (greek[0] == 'Ὁ' || greek[0] == 'Ὅ' || greek[0] == 'Ὃ')
             {
                 step = 1;
-                return AdjustUpperLower("HO", IsSecondCharUpperCase(greek, false));
+                return AdjustUpperLower("HO", IsSecondCharUpperCase(greek, true));
             }
 
 
@@ -943,7 +945,7 @@ namespace GreekTrans
             if (greek[0] == 'Ῥ')
             {
                 step = 1;
-                return AdjustUpperLower("RH", IsSecondCharUpperCase(greek, false));
+                return AdjustUpperLower("RH", IsSecondCharUpperCase(greek, true));
             }
 
             // =============
@@ -1003,7 +1005,7 @@ namespace GreekTrans
                 if (is_tail == false)
                     step--; // 退回最后字母 greek[1] 让下次继续处理
 
-                return AdjustUpperLower("HY", IsSecondCharUpperCase(greek, false));
+                return AdjustUpperLower("HY", IsSecondCharUpperCase(greek, true));
             }
 
             // ===========
@@ -1017,7 +1019,7 @@ namespace GreekTrans
             if (greek[0] == 'Φ')
             {
                 step = 1;
-                return AdjustUpperLower("PH", IsSecondCharUpperCase(greek, false));
+                return AdjustUpperLower("PH", IsSecondCharUpperCase(greek, true));
             }
 
 
@@ -1033,7 +1035,7 @@ namespace GreekTrans
             if (greek[0] == 'Χ')
             {
                 step = 1;
-                return AdjustUpperLower("CH", IsSecondCharUpperCase(greek, false));
+                return AdjustUpperLower("CH", IsSecondCharUpperCase(greek, true));
             }
 
             // ===========
@@ -1243,10 +1245,13 @@ namespace GreekTrans
                 if (greek == "οἱ")
                     return "hoi";
             }
+
+#if REMOVED
             // ⑤ι位于词首，其后紧随δρ且紧随带变音符号的元音时，（20220919），ιδ→hid。
             if (greek == "ιδ"
                 && (style & LookupStyle.head) != 0)
                 return "hid";
+#endif
 
             // === kappa
             // κ→k
@@ -1422,19 +1427,31 @@ namespace GreekTrans
             // === phi ===
             // φ→ph
             if (greek == "φ")
-                return "ph";
+            {
+                // return "ph";
+                step = 1;
+                return AdjustUpperLower("ph", IsSecondCharUpperCase(greek, false));
+            }
 
             // ===========
             // === chi ===
             // χ→ch
             if (greek == "χ")
-                return "ch";
+            {
+                // return "ch";
+                step = 1;
+                return AdjustUpperLower("ch", IsSecondCharUpperCase(greek, false));
+            }
 
             // ===========
             // === psi ===
             // ψ→ps
             if (greek == "ψ")
-                return "ps";
+            {
+                // return "ps";
+                step = 1;
+                return AdjustUpperLower("ps", IsSecondCharUpperCase(greek, false));
+            }
 
             // === omega
             // ①ω→ō；
@@ -1442,7 +1459,11 @@ namespace GreekTrans
                 return "ō";
             // ②ὡ→hō、ὥ→hō、ὣ→hō、ᾧ→hō、ὧ→hō、ᾡ→hō、ᾥ→hō、ᾣ→hō；
             if (IsLowerOmegaWithDasia(greek))
-                return "hō";
+            {
+                // return "hō";
+                step = 1;
+                return AdjustUpperLower("hō", IsSecondCharUpperCase(greek, false));
+            }
             // ③有气号（Dasia）以外其它变音符号（ώ ώ ὼ ῷ ὠ ὤ ὢ ᾦ ῶ ῳ ῴ ῲ ὦ ᾠ ᾤ ᾢ）不转换。
             if (lower_omega_without_dasia/*lower_omega_diacritics_exclude_dasia*/.Where(x => greek == x).Any())
                 return "ō";
@@ -1462,9 +1483,9 @@ namespace GreekTrans
             return null;    // 没有找到
         }
 
-        #region 字母集合
+#region 字母集合
 
-        #region 字母 Alpha
+#region 字母 Alpha
 
         // 带有气号的希腊文 Alpha 字母
         // ①希腊字母集合1：Ἁ Ἃ Ἅ Ἇ ᾉ ᾋ ᾍ ᾏ（8个）→HA
@@ -1637,9 +1658,9 @@ namespace GreekTrans
             return lower_alpha_with_dasia.Where(x => char_string == x).Any();
         }
 
-        #endregion
+#endregion
 
-        #region 字母 Omicron
+#region 字母 Omicron
 
         // ①希腊字母集合（upper_omicron_with_dasia）：Ὁ Ὅ Ὃ（3个）→HO
         // 集合中字符转换为拉丁字母HO。
@@ -1705,9 +1726,9 @@ namespace GreekTrans
             "\u1f42",   // (ὂ)
         };
 
-        #endregion
+#endregion
 
-        #region 字母 Omega
+#region 字母 Omega
 
         // ①希腊字母集合（upper_omega_with_dasia）：Ὡ Ὥ Ὣ ᾯ Ὧ ᾩ ᾭ ᾫ（8个）→HŌ
         // 集合中字符罗马化为拉丁字母HŌ。
@@ -1831,9 +1852,9 @@ namespace GreekTrans
             "\u1fa2",   // (ᾢ)
         };
         */
-        #endregion
+#endregion
 
-        #region 字母 Eta
+#region 字母 Eta
 
         // ①希腊字母集合（upper_eta_with_dasia）：Ἣ Ἡ Ἥ ᾟ Ἧ ᾙ ᾝ ᾛ（8个）→HĒ
         // 集合中字符转换为拉丁字母HĒ。
@@ -1953,9 +1974,9 @@ namespace GreekTrans
             "\u1f92",   // (ᾒ)
         };
 
-        #endregion
+#endregion
 
-        #region 字母 Epsilon
+#region 字母 Epsilon
 
         // ①希腊字母集合（upper_epsilon_with_dasia）：Ἑ Ἕ Ἓ（3个）→HE
         // 本集合中字符罗马化为拉丁字母HE。
@@ -2021,9 +2042,9 @@ namespace GreekTrans
             "\u1f12",   // (ἒ)
         };
 
-        #endregion
+#endregion
 
-        #region 字母 Iota
+#region 字母 Iota
 
         // ⑤希腊字母集合5（upper_iota_with dasia）：Ἱ Ἵ Ἳ Ἷ（4个）
         static string[] upper_iota_with_dasia = new string[] {
@@ -2111,9 +2132,9 @@ namespace GreekTrans
             "\u1f36",   // (ἶ)
         };
 
-        #endregion
+#endregion
 
-        #region 字母 Upsilon
+#region 字母 Upsilon
 
         // ⑨希腊字母集合（upper_upsilon_with_dasia）：Ὑ Ὕ Ὓ Ὗ（4个）
         static string[] upper_upsilon_with_dasia = new string[] {
@@ -2202,11 +2223,11 @@ namespace GreekTrans
             "\u1f56",   // (ὖ)
         };
 
-        #endregion
+#endregion
 
-        #endregion  // of 字母集合
+#endregion  // of 字母集合
 
-        #region utility functions
+#region utility functions
 
         // 判断第二个字符是否为大写
         static bool IsSecondCharUpperCase(string text, bool default_value)
@@ -2258,7 +2279,7 @@ out string strPart2)
             strPart2 = strText.Substring(nRet + strSep.Length).Trim();
         }
 
-        #endregion
+#endregion
     }
 
     [Flags]
